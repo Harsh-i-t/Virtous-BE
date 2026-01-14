@@ -1,6 +1,26 @@
-let products = [
-    { id: 1, name: 'Product A', price: 100, quantity: 50, category: 'Category 1', status: 'in stock', createdAt: new Date() },
-    { id: 2, name: 'Product B', price: 1, quantity: 3, category: 'Category 2', status: 'low-stock', createdAt: new Date() },
-];
+const { Pool } = require('pg');
 
-module.exports = products;
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false, 
+  },
+});
+
+const connectDB = async () => {
+  try {
+    const client = await pool.connect();
+    await client.query('SELECT 1');
+    client.release();
+    console.log('PostgreSQL connected successfully');
+  } catch (err) {
+    console.error('PostgreSQL connection failed');
+    console.error(err);
+    process.exit(1); 
+  }
+};
+
+module.exports = {
+  pool,
+  connectDB,
+};
