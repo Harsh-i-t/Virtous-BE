@@ -20,9 +20,9 @@ productController.updateQuantity = async (req, res) => {
         }
         const { id } = req.params;
         const { quantity } = req.body;
-        console.log(quantity, id);
+        // console.log(quantity, id);
         const products = db;
-        const product = products.find(p => p.id.toString() === id.toString());
+        let  product = products.find(p => p.id.toString() === id.toString());
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
         }
@@ -32,7 +32,8 @@ productController.updateQuantity = async (req, res) => {
         } else if (quantity < 10) {
             product.status = 'low-stock';
         }
-
+        
+        product = products.find(p => p.id.toString() === id.toString());
         return res.status(200).json({ message: 'Product quantity updated successfully', data: { product } });
     } catch (error) {
         console.error('Error updating product quantity:', error);
