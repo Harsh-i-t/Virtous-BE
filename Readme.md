@@ -8,4 +8,4 @@ JWT_SECRET=
 ```
 3. Create tables using the SQL files in the models folder.
 4. Seed initial Admin and User:
-5. Start the server: `npm start`
+5. Start the server: `node server.js`
